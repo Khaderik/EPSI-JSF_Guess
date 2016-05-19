@@ -9,7 +9,7 @@ and open the template in the editor.
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-        <title>Guess : Le jeu </title>
+        <title>#{bundle.titre}</title>
         <meta charset ="utf-8"/>
         <h:outputStylesheet library="style" name="guess.css"/>
     </h:head>
@@ -18,15 +18,15 @@ and open the template in the editor.
             <div id="bigBubble">
 
                 <p id="text">
-                    <h:outputLabel value="Voici l'historique de vos parties:" escape="false"/>
+                    <h:outputLabel value="#{bundle.msg_affHistorique}" escape="false"/>
                     <h:dataTable var="p" value="#{bMDaemon.listeParties}">
                         <h:column> <h:outputLabel value="#{p.resultat}" style="color: white" />
                         </h:column>
                     </h:dataTable>
                 </p>
                 <h:form>
-                    <h:commandButton action="index" value="Retour" />
-                    <h:commandButton action="#{bMDaemon.reset()}" value="Reinitialiser" />
+                    <h:commandButton action="index" value="#{bundle.btn_retour}" />
+                    <h:commandButton action="#{bMDaemon.reset()}" value="#{bundle.btn_Reset}" />
                 </h:form>
                 <div id="mediumBubble">
 

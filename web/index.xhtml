@@ -5,7 +5,8 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
     <h:head>
-        <title>Guess : Le jeu </title>
+        <f:view locale="en_EN" />
+        <title>#{bundle.titre}</title>
         <meta charset ="utf-8"/>
         <h:outputStylesheet library="style" name="guess.css"/>
     </h:head>
@@ -30,12 +31,12 @@
             <!-- ou -->
             <h:graphicImage id="tete" alt="tete" library="images" name="tete.png" />
             <h:form id="proposition">
-                <h:inputText id="nombre" a:autofocus="" title="un nombre de #{bMDaemon.valMin} à #{bMDaemon.valMax}" size="2" value="#{bMDaemon.nbChoixUser}" validatorMessage="/!\ La valeur saisie doit être comprise entre #{bMDaemon.valMin} et #{bMDaemon.valMax} /!\ ">
-                    <f:validateLongRange minimum="#{bMDaemon.valMin}" maximum="#{bMDaemon.valMax}"/>
+                <h:inputText id="nombre" a:autofocus="" title="un nombre de #{bMDaemon.valMin} à #{bMDaemon.valMax}" size="2" value="#{bMDaemon.nbChoixUser}" validatorMessage="#{bMDaemon.msgValeurIncorrecte}">
+                    <f:validateLongRange for="nombre" minimum="#{bMDaemon.valMin}" maximum="#{bMDaemon.valMax}"/>
                 </h:inputText>
-                <h:commandButton action="#{bMDaemon.comparer()}" value="Ok" style="visibility: #{bMDaemon.boutonOkVisible}"/>
-                <h:commandButton action="historique" value="historique" disabled="#{bMDaemon.isDisabled}"/>
-                <h:commandButton action="#{bMDaemon.lancerPartie}" value="Recommencer" style="visibility:#{bMDaemon.boutonRecommencerVisible}"/>
+                <h:commandButton type="submit" action="#{bMDaemon.comparer()}" value="Ok" style="visibility: #{bMDaemon.boutonOkVisible}"/>
+                <h:commandButton action="historique" value="#{bundle.btn_Historique}" disabled="#{bMDaemon.isDisabled}" immediate="true"/>
+                <h:commandButton action="#{bMDaemon.lancerPartie}" value="#{bundle.btn_Reessayer}" style="visibility:#{bMDaemon.boutonRecommencerVisible}"/>
             </h:form>
         </div>
     </h:body>

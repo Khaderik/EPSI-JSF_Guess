@@ -8,9 +8,10 @@ package demo;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.ResourceBundle;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import jdk.nashorn.internal.parser.TokenType;
+import javax.faces.context.FacesContext;
 
 /**
  *
@@ -20,6 +21,8 @@ import jdk.nashorn.internal.parser.TokenType;
 @SessionScoped
 public final class BMDaemon {
 
+    private String msgValeurIncorrecte;
+    ResourceBundle bundle;
     private int valMax;
     private int valMin;
     private String phrase;
@@ -32,6 +35,14 @@ public final class BMDaemon {
     private List<Partie> listeParties;
 
     //<editor-fold defaultstate="collapsed" desc="Accesseurs">
+    public String getMsgValeurIncorrecte() {
+        return msgValeurIncorrecte;
+    }
+
+    public void setMsgValeurIncorrecte(String msgValeurIncorrecte) {
+        this.msgValeurIncorrecte = msgValeurIncorrecte;
+    }
+    
     public Boolean getIsDisabled() {
         return isDisabled;
     }
@@ -94,6 +105,8 @@ public final class BMDaemon {
      * Creates a new instance of BMDaemon
      */
     public BMDaemon() {
+        bundle = ResourceBundle.getBundle("res/strings/MessagesUser",
+                FacesContext.getCurrentInstance().getViewRoot().getLocale());
         listeParties = new ArrayList<>();
         lancerPartie();
     }
@@ -103,32 +116,31 @@ public final class BMDaemon {
         boolean saveOk = listeParties.contains(partieCourante);
         String msgHisto;
         String message;
-        String msgCoup = String.format("coup n° %d ,", nbEssai);
-        
-        
+        String msgCoup = String.format(bundle.getString("msg_CoupN"), nbEssai);
+
         if (nbEssai <= 5) {
             if (nbChoixUser > devinette) {
-                message = String.format("dommage %d est trop grand, essayé un nombre plus petit", nbChoixUser);
+                message = String.format(bundle.getString("msg_TropGrand"), nbChoixUser);
                 setPhrase(msgCoup + message);
             } else if (nbChoixUser < devinette) {
-                message = String.format("dommage %d est trop petit, essayé un nombre plus grand", nbChoixUser);
+                message = String.format(bundle.getString("msg_TropPetit"), nbChoixUser);
                 setPhrase(msgCoup + message);
             } else if (nbChoixUser == devinette) {
-                message = String.format("Vous avez gagné en %d coup(s)! le nombre à deviner était bien %d.", nbEssai, nbChoixUser);
+                message = String.format(bundle.getString("msg_Victoire"), nbEssai, nbChoixUser);
                 setPhrase(message);
                 msgHisto = message;
-                partieCourante.setResultat(String.format("Partie %d - %s", listeParties.size() + 1, msgHisto));
+                partieCourante.setResultat(String.format(bundle.getString("msg_Partie"), listeParties.size() + 1, msgHisto));
                 listeParties.add(partieCourante);
                 finDePartie();
             }
             nbEssai++;
         } else {
-            message = String.format("Désolé, vous n'avez droit qu'à 5 coup(s), veuillez recommencer une nouvelle partie.");
+            message = String.format(bundle.getString("msg_NombreEssaiAtteint"));
             setPhrase(message);
 
             if (!saveOk) {
-                msgHisto = String.format("Désolé, vous avez perdu,le nombre à deviner était %d", devinette);
-                partieCourante.setResultat(String.format("Partie %d - %s", listeParties.size() + 1, msgHisto));
+                msgHisto = String.format(bundle.getString("msg_Perdu"), devinette);
+                partieCourante.setResultat(String.format(bundle.getString("msg_Partie"), listeParties.size() + 1, msgHisto));
                 listeParties.add(partieCourante);
             }
             finDePartie();
@@ -153,7 +165,8 @@ public final class BMDaemon {
         do {
             devinette = (new Random().nextInt(valMax)) + 1;
         } while (devinette < valMin);
-        phrase = String.format("Je pense à un nombre entre <strong>%d</strong> et <strong>%d</strong>. Pouvez-vous le trouver ?", valMin, valMax);
+        phrase = String.format(bundle.getString("msg_Debut"), valMin, valMax);
+        msgValeurIncorrecte = String.format(bundle.getString("msg_valeurIncorrecte"), valMin, valMax);
         boutonRecommencerVisible = "hidden";
         boutonOkVisible = "visible";
         nbEssai = 1;
@@ -163,6 +176,7 @@ public final class BMDaemon {
 
     public void reset() {
         listeParties.clear();
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
     }
 
     private void generePlage() {
