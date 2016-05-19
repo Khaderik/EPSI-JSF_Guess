@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Guess : Le jeu </title>
+        <meta charset ="utf-8"/>
+        <h:outputStylesheet library="style" name="guess.css"/>
+    </h:head>
+    <h:body>
+        <div id="content">
+            <div id="bigBubble">
+
+                <p id="text">
+                    <h:outputLabel value="Voici l'historique de vos parties:" escape="false"/>
+                    <h:dataTable var="p" value="#{bMDaemon.listeParties}">
+                        <h:column> <h:outputLabel value="#{p.resultat}" style="color: white" />
+                        </h:column>
+                    </h:dataTable>
+                </p>
+                <h:form>
+                    <h:commandButton action="index" value="Retour" />
+                    <h:commandButton action="#{bMDaemon.reset()}" value="Reinitialiser" />
+                </h:form>
+                <div id="mediumBubble">
+
+                </div>
+                <div id="smallBubble">
+
+                </div>
+            </div>
+            <!--balise jsf pour l'image  -->
+           <!-- <h:graphicImage id="tete" alt="" value="#{resource['images:tete.png']}"/> -->
+            <!-- ou -->
+            <h:graphicImage id="tete" alt="tete" library="images" name="tete.png" />
+
+        </div>
+    </h:body>
+</html>
