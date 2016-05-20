@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      lang="#{bMDaemon.locale}">
     <h:head>
         <f:view locale="fr_FR" />
         <title>#{bundle.titre}</title>
@@ -39,6 +40,11 @@
                 <h:commandButton type="submit" action="#{bMDaemon.comparer()}" value="Ok" style="visibility: #{bMDaemon.boutonOkVisible}"/>
                 <h:commandButton action="historique" value="#{bundle.btn_Historique}" disabled="#{bMDaemon.isDisabled}" immediate="true"/>
                 <h:commandButton action="#{bMDaemon.lancerPartie}" value="#{bundle.btn_Reessayer}" style="visibility:#{bMDaemon.boutonRecommencerVisible}"/>
+            </h:form>
+            <h:form id="langue">
+                <h:commandLink action="#{bMDaemon.setLanguage("FR")}" >
+                    <h:graphicImage library="images" name="fr.jpg" alt="Français" />
+                </h:commandLink> 
             </h:form>
         </div>
     </h:body>

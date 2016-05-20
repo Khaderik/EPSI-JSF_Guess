@@ -7,6 +7,7 @@ package demo;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 import java.util.ResourceBundle;
 import javax.faces.bean.ManagedBean;
@@ -21,6 +22,7 @@ import javax.faces.context.FacesContext;
 @SessionScoped
 public final class BMDaemon {
 
+    private Locale locale;
     private String msgValeurIncorrecte;
     ResourceBundle bundle;
     private int valMax;
@@ -35,6 +37,15 @@ public final class BMDaemon {
     private List<Partie> listeParties;
 
     //<editor-fold defaultstate="collapsed" desc="Accesseurs">
+    /**
+     * Permet d'obtenir la locale courante
+     *
+     * @return
+     */
+    public Locale getLocale() {
+        return locale;
+    }
+
     public String getMsgValeurIncorrecte() {
         return msgValeurIncorrecte;
     }
@@ -42,7 +53,7 @@ public final class BMDaemon {
     public void setMsgValeurIncorrecte(String msgValeurIncorrecte) {
         this.msgValeurIncorrecte = msgValeurIncorrecte;
     }
-    
+
     public Boolean getIsDisabled() {
         return isDisabled;
     }
@@ -105,8 +116,10 @@ public final class BMDaemon {
      * Creates a new instance of BMDaemon
      */
     public BMDaemon() {
-        bundle = ResourceBundle.getBundle("res/strings/MessagesUser",
-                FacesContext.getCurrentInstance().getViewRoot().getLocale());
+
+        locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
+
+        bundle = ResourceBundle.getBundle("res/strings/MessagesUser", locale);
         listeParties = new ArrayList<>();
         lancerPartie();
     }
@@ -193,5 +206,16 @@ public final class BMDaemon {
             valMax = valMin;
             valMin = val;
         }
+    }
+
+    /**
+     * Permet de modifier le language de la page
+     *
+     * @param language
+     */
+    public String setLanguage(String language) {
+        locale = new Locale(language);
+        FacesContext.getCurrentInstance().getViewRoot().setLocale(locale);
+        return "index";
     }
 }
