@@ -6,7 +6,7 @@
       xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
       lang="#{bMDaemon.locale}">
     <h:head>
-        <f:view locale="fr_FR" />
+        <f:view locale="en_EN" />
         <title>#{bundle.titre}</title>
         <meta charset ="utf-8"/>
         <h:outputStylesheet library="style" name="guess.css"/>
@@ -18,9 +18,7 @@
                 <p id="text">
                     <h:outputLabel value="#{bMDaemon.phrase}" escape="false"/>
                     <br></br>
-                    <p style="color: white">
-                        <h:message for="nombre"/>
-                    </p>
+                    <h:message for="nombre"/>
                 </p>
                 <div id="mediumBubble">
 
