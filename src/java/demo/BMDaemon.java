@@ -174,9 +174,10 @@ public final class BMDaemon {
         partieCourante = new Partie();
     }
 
-    public void reset() {
+    public String reset() {
         listeParties.clear();
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+        return "index";
     }
 
     private void generePlage() {
